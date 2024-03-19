@@ -39,10 +39,14 @@ class BackblazeAdapter implements FilesystemAdapter
     /**
      * @throws GuzzleException
      * @throws B2Exception
+     * 
+     * 
+     * $contents used to be a string, but now it's a resource
+     * @uses file_get_contents('yourfile.txt')
      */
     public function write(string $path, string $contents, Config $config): void
     {
-        if ($this->isLargeFile(filesize($contents))) {
+        if ($this->isLargeFile(strlen($contents))) {
             $this->uploadLargeFile($path, $contents, $config);
         } else {
             $this->getClient()->upload([
@@ -53,6 +57,8 @@ class BackblazeAdapter implements FilesystemAdapter
             ]);
         }
     }
+
+
 
     /**
      * @param resource $contents
