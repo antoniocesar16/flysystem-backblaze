@@ -469,6 +469,26 @@ class BackblazeAdapter implements FilesystemAdapter
         ];
     }
 
+    public function getBucketName(): string
+    {
+        return $this->bucketName;
+    }
+
+    public function getBucketId(): mixed
+    {
+        return $this->bucketId;
+    }
+
+    public function localeBucket(string $path): string {
+        $locale = 'us-east-005';
+
+        return 'https://' . $this->bucketName . '.s3.' . $locale . '.backblazeb2.com/' . $path;
+    }
+
+    public function getUrl($path) {
+        return $this->localeBucket($path);
+    }
+
     /**
      * @throws GuzzleException
      * @throws B2Exception
